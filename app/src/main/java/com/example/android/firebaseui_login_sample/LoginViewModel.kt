@@ -42,11 +42,23 @@ class LoginViewModel : ViewModel() {
 
     enum class AuthenticationState {
         AUTHENTICATED, UNAUTHENTICATED, INVALID_AUTHENTICATION
+
+        // can add other states like: in-progress and signing up
     }
 
     // TODO Create an authenticationState variable based off the FirebaseUserLiveData object. By
     //  creating this variable, other classes will be able to query for whether the user is logged
     //  in or not
+
+    // use the value of FirebaseUserLiveData to populate authenticationState
+    // use this is main frag
+    val authenticationState = FirebaseUserLiveData().map {user ->
+        if (user != null){
+            AuthenticationState.AUTHENTICATED
+        } else {
+            AuthenticationState.UNAUTHENTICATED
+        }
+    }
 
     /**
      * Gets a fact to display based on the user's set preference of which type of fact they want
